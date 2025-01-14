@@ -53,7 +53,7 @@
 
     <platform name="android">
         
-        <preference name="ACCESS_BACKGROUND_LOCATION" default="false"/>
+        <preference name="ACCESS_BACKGROUND_LOCATION" default="true"/>
         
         <config-file target="res/xml/config.xml" parent="/widget">
             <feature name="BLE">
