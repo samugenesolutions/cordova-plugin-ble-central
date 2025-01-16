@@ -12,8 +12,14 @@ const permissions = [
     'BLUETOOTH_ADMIN',
     'BLUETOOTH_SCAN',
     'BLUETOOTH_CONNECT',
+    'CAMERA',
 ];
 
+
+const features = [
+    'camera',
+];
+//UPDATED WITH REMOVE DUPLICATE FEATURE
 // Helper script for repairing https://github.com/don/cordova-plugin-ble-central/issues/925
 module.exports = function (context) {
     const { projectRoot } = context.opts;
@@ -32,6 +38,14 @@ module.exports = function (context) {
         duplicates.push(...matches.slice(1));
     }
 
+    for (const feature of features) {
+        const matcher = usesFeaturesRegex(feature);
+        const matches = matchAll(matcher, androidManifest);
+        // Skip the first match, only want duplicates
+        duplicates.push(...matches.slice(1));
+    }
+
+
     if (duplicates.length > 0) {
         // Sort last to first by index to avoid needing to recompute offsets during remove
         duplicates.sort((a, b) => b.index - a.index);
@@ -46,6 +60,13 @@ module.exports = function (context) {
 function usesPermissionsRegex(permission) {
     return new RegExp(
         '\\n\\s*?<uses-permission.*? android:name="android\\.permission\\.' + permission + '".*?\\/>',
+        'gm'
+    );
+}
+
+function usesFeaturesRegex(feature) {
+    return new RegExp(
+        '\\n\\s*?<uses-feature.*? android:name="android\\.hardware\\.' + feature + '".*?\\/>',
         'gm'
     );
 }
