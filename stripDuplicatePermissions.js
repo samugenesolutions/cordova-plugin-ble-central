@@ -13,6 +13,7 @@ const permissions = [
     'BLUETOOTH_SCAN',
     'BLUETOOTH_CONNECT',
     'CAMERA',
+    'WRITE_EXTERNAL_STORAGE',
 ];
 
 
